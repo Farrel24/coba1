@@ -1,26 +1,84 @@
-function scrollToElement(elementSelector, instance = 0) {
-    // Select all elements that match the given selector
-    const elements = document.querySelectorAll(elementSelector);
-    // Check if there are elements matching the selector and if the requested instance exists
-    if (elements.length > instance) {
-        // Scroll to the specified instance of the element
-        elements[instance].scrollIntoView({ behavior: 'smooth' });
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
     }
+  });
 }
 
-const link1 = document.getElementById("link1");
-const link2 = document.getElementById("link2");
-const link3 = document.getElementById("link3");
+    // 2. Validasi Form
+    const form = document.querySelector('#contact form');
+    form.addEventListener('submit', function(e) {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
 
-link1.addEventListener('click', () => {
-    scrollToElement('.header');
-});
+        if (!name || !email || !message) {
+            e.preventDefault();
+            alert('Mohon lengkapi semua input sebelum mengirim!');
+        }
+    });
 
-link2.addEventListener('click', () => {
-    // Scroll to the second element with "header" class
-    scrollToElement('.header', 1);
-});
+    // 3. Tampilan Modal untuk Form
+    const btnAjukanSurat = document.querySelector('.btn');
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            ${form.outerHTML}
+        </div>
+    `;
+    document.body.appendChild(modal);
 
-link3.addEventListener('click', () => {
-    scrollToElement('.column');
-});
+    btnAjukanSurat.addEventListener('click', function() {
+        modal.style.display = 'block';
+    });
+
+    // Close modal saat tombol close ditekan
+    modal.querySelector('.close').addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+
+    // Close modal saat klik di luar modal
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+    
+    $(document).ready(function() {
+        const cards = $('.features .card');
+        let currentIndex = 0;
+      
+        function showCard(index) {
+          cards.hide().eq(index).fadeIn();
+        }
+      
+        $('.next-btn').click(function() {
+          currentIndex++;
+          if (currentIndex >= cards.length) {
+            currentIndex = 0;
+          }
+          showCard(currentIndex);
+        });
+      
+        $('.prev-btn').click(function() {
+          currentIndex--;
+          if (currentIndex < 0) {
+            currentIndex = cards.length - 1;
+          }
+          showCard(currentIndex);
+        });
+      });
+      
+        
+
+
